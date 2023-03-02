@@ -1,7 +1,26 @@
-import React, { useState } from 'react';
+import ExpandableParagraph from "./ExpandableParaagraph";
 
-const Tour = () => {
-  return <h2>tour component</h2>;
+const Tour = ({name, image, info, price, handleRemoveClick}) => {
+  return (
+    <article className="single-tour">
+      <img src={image} alt={name} />
+
+      <footer>
+        <div className="tour-info">
+          <h4>{name}</h4>
+          <h4 className="tour-price">
+            ${price}
+          </h4>
+        </div>
+
+        <ExpandableParagraph text={info} clippedLength={200} />
+
+        <button onClick={handleRemoveClick} className="delete-btn">
+          Not Interested
+        </button>
+      </footer>
+    </article>
+  ); 
 };
 
 export default Tour;
