@@ -15,7 +15,7 @@ const SingleColor = ({rgb, weight}) => {
     }, 3000)
 
     return () => {
-      clearTimeout(3000)
+      clearTimeout(tid)
     }
   }, [])
 
