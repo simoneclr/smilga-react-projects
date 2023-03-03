@@ -1,13 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
-import { FaQuoteRight } from 'react-icons/fa';
 
 import data from './data';
 
+import ReviewCard from './ReviewCard';
+
+import useSlider from './useSlider';
+
 function App() {
 
-  const [activeReview, setActiveReview] = useState(0)
+  const {
+    activeSlideIndex: activeReview,
+    prevSlide,
+    nextSlide
+  } = useSlider(data.length)
 
   // Cumputes the appropriate class name for each review in the slider
   // Based on its index and the activeReview index
@@ -21,16 +28,6 @@ function App() {
     }
   }
 
-  const prevSlide = () => {
-    setActiveReview(activeReview => 
-      activeReview > 0 ? activeReview - 1 : data.length - 1
-    )
-  }
-
-  const nextSlide = () => {
-    setActiveReview(activeReview => (activeReview + 1) % data.length)
-  }
-
   // Autoplay
   useEffect(() => {
     const tid = setTimeout(() => {
@@ -40,7 +37,7 @@ function App() {
     return () => {
       clearTimeout(tid)
     }
-  }, [activeReview])
+  }, [activeReview, nextSlide])
 
   return (
     <section className="section">
@@ -54,15 +51,11 @@ function App() {
       <div className="section-center">
 
         {data.map((review, i) =>
-          <article key={review.id} className={getSliderClassName(i)}>
-            <img src={review.image} alt={review.name} className="person-img" />
-            <h4>{review.name}</h4>
-            <p className="title">{review.title}</p>
-            <p className="text">
-              {review.quote}
-            </p>
-            <FaQuoteRight className='icon' />
-          </article>
+          <ReviewCard
+            key={review.id}
+            sliderClassName={getSliderClassName(i)}
+            {...review} 
+          />
         )}
 
         <button 
