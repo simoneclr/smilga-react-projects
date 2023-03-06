@@ -4,9 +4,7 @@ const useSlider = (size) => {
 	const [activeSlideIndex, setActiveSlideIndex] = useState(0)
 
 	const prevSlide = () => {
-    setActiveSlideIndex(activeSlideIndex => 
-      activeSlideIndex > 0 ? activeSlideIndex - 1 : size - 1
-    )
+    setActiveSlideIndex(activeSlideIndex => (activeSlideIndex + size - 1) % size)
   }
 
   const nextSlide = () => {
