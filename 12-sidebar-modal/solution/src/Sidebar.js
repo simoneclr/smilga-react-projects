@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import logo from './logo.svg'
 import { FaTimes } from 'react-icons/fa'
 import { social, links } from './data'
 import { useAppContext } from './context'
+import useOnClickOutside from './useOnClickOutside'
 
 const Sidebar = () => {
 
-  const {isSidebarOpen, closeSidebar} = useAppContext()
+  const {isSidebarOpen, sidebarBtnRef, closeSidebar} = useAppContext()
+
+  const sidebarRef = useRef(null)
+
+  useOnClickOutside(sidebarRef, sidebarBtnRef, closeSidebar)
 
   return (
-    <aside className={`sidebar ${isSidebarOpen ? "show-sidebar" : ""}`}>
+    <aside ref={sidebarRef} className={`sidebar ${isSidebarOpen ? "show-sidebar" : ""}`}>
       <header className="sidebar-header">
         <img src={logo} alt="Coding Addict" className='logo' />
 

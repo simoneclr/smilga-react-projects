@@ -3,15 +3,15 @@ import { useAppContext } from './context'
 
 const Home = () => {
 
-  const {openSidebar, openModal} = useAppContext()
+  const {sidebarBtnRef, openSidebar, modalBtnRef, openModal} = useAppContext()
 
   return (
     <main>
-      <button onClick={openSidebar} className="sidebar-toggle">
+      <button ref={sidebarBtnRef} onClick={openSidebar} className="sidebar-toggle">
         <FaBars />
       </button>
 
-      <button onClick={openModal} className="btn">
+      <button ref={modalBtnRef} onClick={openModal} className="btn">
         Show modal
       </button>
     </main>

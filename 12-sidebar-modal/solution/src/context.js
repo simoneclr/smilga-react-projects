@@ -1,4 +1,4 @@
-import { useState, useContext, createContext } from 'react'
+import { useState, useContext, createContext, useCallback, useRef } from 'react'
 
 const AppContext = createContext();
 
@@ -7,28 +7,33 @@ export const AppProvider = ({children}) => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 	const [isModalOpen, setIsModalOpen] = useState(false)
 
-	const openSidebar = () => {
+	const sidebarBtnRef = useRef(null)
+	const modalBtnRef = useRef(null)
+
+	const openSidebar = useCallback(() => {
 		setIsSidebarOpen(true)
-	}
+	}, [])
 
-	const closeSidebar = () => {
+	const closeSidebar = useCallback(() => {
 		setIsSidebarOpen(false)
-	}
+	}, [])
 
-	const openModal = () => {
+	const openModal = useCallback(() => {
 		setIsModalOpen(true)
-	}
+	}, [])
 
-	const closeModal = () => {
+	const closeModal = useCallback(() => {
 		setIsModalOpen(false)
-	}
+	}, [])
 
 	return (
 		<AppContext.Provider value={{
 			isSidebarOpen,
+			sidebarBtnRef,
 			openSidebar,
 			closeSidebar,
 			isModalOpen,
+			modalBtnRef,
 			openModal,
 			closeModal
 		}}>
