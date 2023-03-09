@@ -4,8 +4,9 @@ const endpoint = "https://picsum.photos/v2/list"
 const pageParam = "page="
 const limitParam = "limit="
 
-const useFetchPage = (page, limit) => {
+const useFetchPaginated = (limit) => {
 	const [data, setData] = useState([])
+	const [page, setPage] = useState(1)
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
@@ -32,8 +33,10 @@ const useFetchPage = (page, limit) => {
 
 	return {
 		data,
+		page,
+		setPage,
 		isLoading
 	}
 }
 
-export default useFetchPage
+export default useFetchPaginated

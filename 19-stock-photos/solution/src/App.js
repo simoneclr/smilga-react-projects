@@ -1,13 +1,11 @@
-import { useState, useEffect } from 'react'
-import useFetchPage from './hooks/useFetchPaginated'
+import { useEffect } from 'react'
+import useFetchPaginated from './hooks/useFetchPaginated'
 
 import Photo from './Photo'
 
 function App() {
 
-  const [page, setPage] = useState(1)
-
-  const {data: photos, isLoading} = useFetchPage(page, 20)
+  const {data: photos, isLoading, setPage} = useFetchPaginated(20)
   
   // Scroll listener
   useEffect(() => {
@@ -24,7 +22,7 @@ function App() {
     return () => {
       window.removeEventListener("scroll", listener)
     }
-  }, [isLoading])
+  }, [isLoading, setPage])
 
   return (
     <main>
