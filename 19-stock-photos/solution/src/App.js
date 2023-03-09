@@ -1,44 +1,21 @@
 import { useState, useEffect } from 'react'
+import useFetchPage from './hooks/useFetchPaginated'
 
 import Photo from './Photo'
 
-const placeholders = new Array(10).fill().map(() => {
-  return {
-    url: "https://placedog.net/640/480?r"
-  }
-})
-
 function App() {
 
-  const [photos, setPhotos] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [shouldReload, setShouldReload] = useState(true)
+  const [page, setPage] = useState(1)
 
-  // Fake api call
-  useEffect(() => {
-    setIsLoading(true)
-
-    const tid = setTimeout(() => {
-      if (shouldReload) {
-        setPhotos(prev => [...prev, ...placeholders])
-      }
-
-      setIsLoading(false)
-      setShouldReload(false)
-    }, 250);
-
-    return () => {
-      clearInterval(tid)
-    }
-  }, [shouldReload])
-
+  const {data: photos, isLoading} = useFetchPage(page, 20)
+  
   // Scroll listener
   useEffect(() => {
     const listener = (e) => {
       // console.log(window.innerHeight, window.scrollY, document.body.scrollHeight)
 
       if (!isLoading && (window.innerHeight + window.scrollY >= document.body.scrollHeight)) {
-        setShouldReload(true)
+        setPage(prevPage => prevPage + 1)
       }
     }
 
@@ -53,8 +30,8 @@ function App() {
     <main>
       <section className="photos">
         <div className="photos-center">
-          {photos.map((photo, i) => 
-            <Photo key={i} {...photo}/>
+          {photos.map(photo => 
+            <Photo key={photo.id} {...photo}/>
           )}
         </div>
 

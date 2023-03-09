@@ -1,6 +1,12 @@
 import React from 'react'
 
-const Photo = ({url}) => {
+const baseUrl = "https://picsum.photos/id/"
+const sizeUrl = "/810/540"
+
+const Photo = ({id}) => {
+
+  const url = baseUrl + id + sizeUrl
+
   return (
     <article className="photo">
       <img src={url} alt="dog" />
