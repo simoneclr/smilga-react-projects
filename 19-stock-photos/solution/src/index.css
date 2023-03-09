@@ -194,6 +194,12 @@ Stock Photos
 .photo p {
   margin-bottom: 0;
 }
+.photo a {
+  color: rgba(255, 255, 255, .8);
+}
+.photo a:hover {
+  text-decoration: underline;
+}
 .user-img {
   width: 2.5rem;
   height: 2.5rem;
