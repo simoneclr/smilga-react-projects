@@ -1,22 +1,23 @@
 import axios from 'axios'
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 
-const table = {
+const apiCategoryCodes = {
   sports: 21,
   history: 23,
   politics: 24,
+  weeb: 31
 }
 
-const API_ENDPOINT = 'https://opentdb.com/api.php?'
+const API_ENDPOINT = 'https://opentdb.com/api.php'
 
-const testCallUrl = 'https://opentdb.com/api.php?amount=10&category=21&difficulty=easy&type=multiple'
+// const testCallUrl = 'https://opentdb.com/api.php?amount=10&category=21&difficulty=easy&type=multiple'
 
 const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
 
   // Waiting for the construction form to be completed
-  const [waiting, setWaiting] = useState(false)
+  const [waiting, setWaiting] = useState(true)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
@@ -25,6 +26,13 @@ const AppProvider = ({ children }) => {
   const [score, setScore] = useState(0)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  // Quiz setup form
+  const [quiz, setQuiz] = useState({
+    amount: 10,
+    category: "sports",
+    difficulty: "easy"
+  })
 
   const fetchQuestions = async (url) => {
     setWaiting(false)
@@ -51,10 +59,6 @@ const AppProvider = ({ children }) => {
     }
   }
 
-  useEffect(() => {
-    fetchQuestions(testCallUrl)
-  }, [])
-
   const nextQuestion = (correct = false) => {
     if (correct) {
       setScore(score + 1)
@@ -65,6 +69,28 @@ const AppProvider = ({ children }) => {
     } else {
       setIsModalOpen(true)
      }
+  }
+
+  const handleFormChange = (e) => {
+    setQuiz({
+      ...quiz,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault()
+    // console.log(quiz)
+
+    const url = API_ENDPOINT + 
+      "?amount=" + quiz.amount +
+      "&category=" + apiCategoryCodes[quiz.category] +
+      "&difficulty=" + quiz.difficulty +
+      "&type=multiple"
+
+    // console.log(url)
+
+    fetchQuestions(url)
   }
 
   const closeModal = () => {
@@ -86,8 +112,11 @@ const AppProvider = ({ children }) => {
       index,
       score,
       isModalOpen,
+      quiz,
       nextQuestion,
-      closeModal
+      closeModal,
+      handleFormChange,
+      handleFormSubmit
     }}>
       {children}
     </AppContext.Provider>
